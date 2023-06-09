@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import propTypes from 'prop-types';
 import { FaCartPlus } from 'react-icons/fa';
 import formatCurrency from '../../api/utils/formatCurrency';
 
 import './ProductCard.css';
+import AppContext from '../../context/AppContext';
 
 export default function ProductCard({ data }) {
   const { title, thumbnail, price } = data;
+  const { cartItems, setCartItems } = useContext(AppContext);
+
+  const handleAddCart = () =>{
+    setCartItems([ ...cartItems, data ]);
+  };
 
   return (
     <div className="product-card">
@@ -16,7 +22,7 @@ export default function ProductCard({ data }) {
         <h2 className="card__price">{formatCurrency(price, 'BRL')}</h2>
         <h2 className="card__title">{title}</h2>
       </div>
-      <button type="button" className="button__add-cart">
+      <button onClick={ handleAddCart } type="button" className="button__add-cart">
         <FaCartPlus />
       </button>
     </div>
